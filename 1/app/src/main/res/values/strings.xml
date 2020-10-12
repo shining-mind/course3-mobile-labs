@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Калькулятор</string>
+    <string name="etAmountHint">Введите количество</string>
+    <string name="tvPercentText">15 %</string>
+    <string name="tvLabelTipText">Чаевые</string>
+    <string name="tvLabelTotalText">Итого</string>
+</resources>
