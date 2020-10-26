@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ThirdApplication</string>
+    <string name="example_item_id">1</string>
+    <string name="example_item_content">Content of the 1</string>
+    <string name="example_item_details">Details of the 1</string>
+    <string name="unknown_item_details">Unknown item!?</string>
+</resources>
