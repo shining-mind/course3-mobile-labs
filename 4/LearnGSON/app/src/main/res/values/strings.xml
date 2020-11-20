@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Learn GSON</string>
+    <string name="et_json">{\n    "name": "Мурзик",\n     "age": 7,\n    "color": 0\n}</string>
+    <string name="tv_json">JSON</string>
+    <string name="tv_cat">Кот</string>
+    <string name="cat_as_string">%s, %d лет</string>
+    <string name="tv_cat_color">Цвет</string>
+</resources>
