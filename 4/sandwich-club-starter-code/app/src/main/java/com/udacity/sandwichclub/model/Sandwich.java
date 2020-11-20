@@ -4,6 +4,12 @@ import java.util.List;
 
 public class Sandwich {
 
+    private class SandwichName {
+        public String mainName;
+        public List<String> alsoKnownAs = null;
+    }
+
+    private SandwichName name = null;
     private String mainName;
     private List<String> alsoKnownAs = null;
     private String placeOfOrigin;
@@ -27,7 +33,7 @@ public class Sandwich {
     }
 
     public String getMainName() {
-        return mainName;
+        return mainName != null ? mainName : name.mainName;
     }
 
     public void setMainName(String mainName) {
@@ -35,7 +41,7 @@ public class Sandwich {
     }
 
     public List<String> getAlsoKnownAs() {
-        return alsoKnownAs;
+        return alsoKnownAs != null ? alsoKnownAs : name.alsoKnownAs;
     }
 
     public void setAlsoKnownAs(List<String> alsoKnownAs) {
