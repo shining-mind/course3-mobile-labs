@@ -5,4 +5,6 @@
     <string name="common_gestures">CommonGestures</string>
     <string name="button_clicked">Button Clicked</string>
     <string name="button_long_clicked">Long button click</string>
+    <string name="main_text">Используйте меню, чтобы проверить работу событий разных типов</string>
+    <string name="placeholder">-/-</string>
 </resources>

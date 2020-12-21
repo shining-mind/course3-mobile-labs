@@ -52,7 +52,7 @@ public class MotionEvent extends Fragment {
     protected void handleTouch(android.view.MotionEvent event) {
         int pointerCount = event.getPointerCount();
         if (pointerCount == 1) {
-            textView2.setText("--");
+            textView2.setText(R.string.placeholder);
         }
         for (int i = 0; i < pointerCount; i++) {
             int x = (int) event.getX(i);

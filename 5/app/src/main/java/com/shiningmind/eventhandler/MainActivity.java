@@ -33,8 +33,10 @@ public class MainActivity extends AppCompatActivity {
                 openFragment(new ButtonClick());
                 return true;
             case R.id.motionEvent:
+                openFragment(new MotionEvent());
                 return true;
             case R.id.commonGestures:
+                openFragment(new CommonGestures());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:id="@+id/fragment_motion_event"
-    android:paddingVertical="16dp"
+    android:gravity="center"
     >
     <TextView
-        android:id="@+id/textViewMotion1"
+        android:id="@+id/textViewCommon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/placeholder"
-        android:layout_marginBottom="32dp"
     />
-    <TextView
-        android:id="@+id/textViewMotion2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/placeholder" />
 </LinearLayout>
