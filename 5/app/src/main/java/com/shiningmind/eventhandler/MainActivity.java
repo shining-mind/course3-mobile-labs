@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.buttonClick:
+                openFragment(new ButtonClick());
                 return true;
             case R.id.motionEvent:
                 return true;
