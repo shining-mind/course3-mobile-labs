@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">EventHandler</string>
+    <string name="button_click">ButtonClick</string>
+    <string name="motion_event">MotionEvent</string>
+    <string name="common_gestures">CommonGestures</string>
+    <string name="button_clicked">Button Clicked</string>
+    <string name="button_long_clicked">Long button click</string>
+</resources>
