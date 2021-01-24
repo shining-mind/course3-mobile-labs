@@ -1,6 +1,7 @@
 package com.shiningmind.photogallery.api;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.shiningmind.photogallery.model.PhotosResponse;
 
 import java.io.IOException;
@@ -21,28 +22,16 @@ public class ServiceAPI {
         this.apiKey = apiKey;
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(new Gson()))
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
                 .build();
         api = retrofit.create(FlickrPhotosAPI.class);
     }
 
-    public PhotosResponse getRecent() {
-        return safeCall(api.getRecent(apiKey));
+    public Call<PhotosResponse> getRecent() {
+        return api.getRecent(apiKey);
     }
 
-    public PhotosResponse search(String text) {
-        return safeCall(api.getSearchPhotos(apiKey, text));
-    }
-
-    public <T> T safeCall(Call<T> call) {
-        try {
-            Response<T> response = call.execute();
-            if (response.isSuccessful()) {
-                return response.body();
-            }
-            return null;
-        } catch (IOException e) {
-            return null;
-        }
+    public Call<PhotosResponse> search(String text) {
+        return api.getSearchPhotos(apiKey, text);
     }
 }
