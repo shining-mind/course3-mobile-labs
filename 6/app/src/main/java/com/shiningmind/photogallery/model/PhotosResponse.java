@@ -1,7 +1,7 @@
 
 package com.shiningmind.photogallery.model;
 
-public class Response {
+public class PhotosResponse {
     private Photos photos;
     private String stat;
 
