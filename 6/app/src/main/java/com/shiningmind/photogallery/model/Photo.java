@@ -1,21 +1,45 @@
 
 package com.shiningmind.photogallery.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
+@Entity
 public class Photo {
+    @PrimaryKey
+    @NonNull
     private String id;
+    @ColumnInfo
+    @NonNull
     private String owner;
+    @ColumnInfo
+    @NonNull
     private String secret;
+    @ColumnInfo
+    @NonNull
     private String server;
-    private Integer farm;
+    @ColumnInfo
+    @NonNull
+    private int farm;
+    @ColumnInfo
+    @NonNull
     private String title;
+    @ColumnInfo
+    @NonNull
     @SerializedName("ispublic")
-    private Integer isPublic;
+    private int isPublic;
+    @ColumnInfo
+    @NonNull
     @SerializedName("isfriend")
-    private Integer isFriend;
+    private int isFriend;
+    @ColumnInfo
+    @NonNull
     @SerializedName("isfamily")
-    private Integer isFamily;
+    private int isFamily;
 
     public String getId() {
         return id;
@@ -49,6 +73,7 @@ public class Photo {
         this.server = server;
     }
 
+    @NonNull
     public int getFarm() {
         return farm;
     }
@@ -65,6 +90,7 @@ public class Photo {
         this.title = title;
     }
 
+    @NonNull
     public int getIsPublic() {
         return isPublic;
     }
@@ -73,6 +99,7 @@ public class Photo {
         this.isPublic = isPublic;
     }
 
+    @NonNull
     public int getIsFriend() {
         return isFriend;
     }
@@ -81,6 +108,7 @@ public class Photo {
         this.isFriend = isFriend;
     }
 
+    @NonNull
     public int getIsFamily() {
         return isFamily;
     }

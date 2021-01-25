@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.shiningmind.photogallery.db.PhotoDatabase;
 import com.shiningmind.photogallery.model.Photo;
 import com.squareup.picasso.Picasso;
 
@@ -16,6 +17,7 @@ import java.util.List;
 public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoHolder> {
 
     private List<Photo> photos;
+    private PhotoGallery.ImageClickListener imageClickListener;
 
     public static class PhotoHolder extends RecyclerView.ViewHolder {
         public final ImageView ivPreview;
@@ -28,8 +30,9 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoHolde
         }
     }
 
-    public PhotosAdapter(List<Photo> photos) {
+    public PhotosAdapter(List<Photo> photos, PhotoGallery.ImageClickListener imageClickListener) {
         this.photos = photos;
+        this.imageClickListener = imageClickListener;
     }
 
     @Override
@@ -47,6 +50,10 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoHolde
             Picasso.get()
                     .load(item.getUrl("s"))
                     .into(holder.ivPreview);
+            holder.ivPreview.setOnLongClickListener((View v) -> {
+                this.imageClickListener.onImageClick(item);
+                return true;
+            });
             holder.tvTitle.setText(item.getTitle());
         }
     }

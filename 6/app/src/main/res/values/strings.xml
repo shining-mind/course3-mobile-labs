@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">PhotoGallery</string>
     <string name="api_failed">Не удалось загрузить изображения из flickr</string>
+    <string name="local_images">Локальные изображения</string>
+    <string name="recent_images">Последние изображения</string>
+    <string name="no_local_images">Вы ещё не сохраняли ни одного изображения</string>
+    <string name="image_saved">Изображение сохранено</string>
 </resources>
