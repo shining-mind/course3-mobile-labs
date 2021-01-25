@@ -5,4 +5,7 @@
     <string name="recent_images">Последние изображения</string>
     <string name="no_local_images">Вы ещё не сохраняли ни одного изображения</string>
     <string name="image_saved">Изображение сохранено</string>
+    <string name="search_title">Поиск</string>
+    <string name="search_hint">Тэг, название или описание изображения</string>
+    <string name="search_result">Поисковая фраза</string>
 </resources>

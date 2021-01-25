@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,39 +37,53 @@ public class PhotoGallery extends AppCompatActivity {
     private PhotoDatabase db;
     private List<Photo> photos = new ArrayList<Photo>();
     private State state = new State();
+    private Callback<PhotosResponse> apiCallback = new Callback<PhotosResponse>() {
+        @Override
+        public void onResponse(Call<PhotosResponse> call, Response<PhotosResponse> response) {
+            PhotosResponse photosResponse = response.body();
+            if (photosResponse != null && photosResponse.getStat().equals("ok")) {
+                updateImageList(photosResponse.getPhotos().getPhoto());
+            } else {
+                showMessage(getString(R.string.api_failed));
+            }
+        }
+
+        @Override
+        public void onFailure(Call<PhotosResponse> call, Throwable t) {
+            showMessage(getString(R.string.api_failed));
+            t.printStackTrace();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gallery_activity);
         db = PhotoDatabase.getDatabase(getApplicationContext());
-        state.setCurrentMenuItemId(R.id.recentImages);
         service = new ServiceAPI(getString(R.string.api_key));
         tvMessage = findViewById(R.id.tvMessage);
         recyclerView = findViewById(R.id.rvImageList);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.setAdapter(new PhotosAdapter(photos, new ImageClickListener()));
-        loadRecentImages();
+        Intent intent = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            state.setCurrentMenuItemId(R.id.searchImages);
+            loadSearchImages(query);
+        } else {
+            state.setCurrentMenuItemId(R.id.recentImages);
+            loadRecentImages();
+        }
     }
 
     public void loadRecentImages() {
-        service.getRecent().enqueue(new Callback<PhotosResponse>() {
-            @Override
-            public void onResponse(Call<PhotosResponse> call, Response<PhotosResponse> response) {
-                PhotosResponse photosResponse = response.body();
-                if (photosResponse != null && photosResponse.getStat().equals("ok")) {
-                    updateImageList(photosResponse.getPhotos().getPhoto());
-                } else {
-                    showMessage(getString(R.string.api_failed));
-                }
-            }
+        service.getRecent().enqueue(apiCallback);
+        showMessage(getString(R.string.recent_images));
+    }
 
-            @Override
-            public void onFailure(Call<PhotosResponse> call, Throwable t) {
-                showMessage(getString(R.string.api_failed));
-                t.printStackTrace();
-            }
-        });
+    public void loadSearchImages(String text) {
+        service.search(text).enqueue(apiCallback);
+        showMessage(String.format("%s: %s", getString(R.string.search_result), text));
     }
 
     public void loadLocalImages() {
@@ -80,6 +97,7 @@ public class PhotoGallery extends AppCompatActivity {
                 } else {
                     updateImageList(localPhotos);
                 }
+                showMessage(getString(R.string.local_images));
             });
         });
     }
@@ -88,22 +106,33 @@ public class PhotoGallery extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.searchImages).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(false);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int menuItemId = item.getItemId();
-        if (state.getCurrentMenuItemId() == menuItemId) {
-            return true;
-        }
+        int prevMenuItemId = state.getCurrentMenuItemId();
         state.setCurrentMenuItemId(menuItemId);
         switch (menuItemId) {
             case R.id.localImages:
-                loadLocalImages();
+                if (prevMenuItemId != menuItemId) {
+                    loadLocalImages();
+                }
                 return true;
             case R.id.recentImages:
-                loadRecentImages();
+                if (prevMenuItemId != menuItemId) {
+                    loadRecentImages();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -114,15 +143,11 @@ public class PhotoGallery extends AppCompatActivity {
     {
         photos.clear();
         photos.addAll(newPhotos);
-        recyclerView.setVisibility(View.VISIBLE);
         recyclerView.getAdapter().notifyDataSetChanged();
-        tvMessage.setVisibility(View.GONE);
     }
 
     private void showMessage(String message)
     {
-        recyclerView.setVisibility(View.GONE);
-        tvMessage.setVisibility(View.VISIBLE);
         tvMessage.setText(message);
     }
 
